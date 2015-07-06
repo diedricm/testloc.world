@@ -50,15 +50,16 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import de.hu_berlin.informatik.spws2014.imagePositionLocator.GpsPoint;
-import de.hu_berlin.informatik.spws2014.imagePositionLocator.IPLSettingsContainer;
-import de.hu_berlin.informatik.spws2014.imagePositionLocator.LDMIOEmpty;
-import de.hu_berlin.informatik.spws2014.imagePositionLocator.LDMIOTrack;
-import de.hu_berlin.informatik.spws2014.imagePositionLocator.LocationDataManager;
-import de.hu_berlin.informatik.spws2014.imagePositionLocator.Marker;
-import de.hu_berlin.informatik.spws2014.imagePositionLocator.Point2D;
-import de.hu_berlin.informatik.spws2014.imagePositionLocator.NoGpsDataAvailableException;
-import de.hu_berlin.informatik.spws2014.imagePositionLocator.PointNotInImageBoundsException;
+import de.hu_berlin.informatik.spws2014.ImagePositionLocator.GpsPoint;
+import de.hu_berlin.informatik.spws2014.ImagePositionLocator.IPLSettingsContainer;
+import de.hu_berlin.informatik.spws2014.ImagePositionLocator.LDMIOEmpty;
+import de.hu_berlin.informatik.spws2014.ImagePositionLocator.LDMIOTrack;
+import de.hu_berlin.informatik.spws2014.ImagePositionLocator.LocationDataManager;
+import de.hu_berlin.informatik.spws2014.ImagePositionLocator.Marker;
+import de.hu_berlin.informatik.spws2014.ImagePositionLocator.Point2D;
+import de.hu_berlin.informatik.spws2014.ImagePositionLocator.NoGpsDataAvailableException;
+import de.hu_berlin.informatik.spws2014.ImagePositionLocator.PointNotInImageBoundsException;
+import de.hu_berlin.informatik.spws2014.ImagePositionLocator.TriangleImagePositionLocator;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -203,17 +204,21 @@ public class testloc_world {
     		globeDisplayAdapter.clear();
     		mapDisplayAdapter.clear();
     		
+    		Point2D imageSize = new Point2D(mapBufferedImage.getWidth(), mapBufferedImage.getHeight()); 
     		locDataManager = new LocationDataManager(positionUpdateHandler,
     				new LDMIOEmpty(),
-    				new Point2D(mapBufferedImage.getWidth(), mapBufferedImage.getHeight()),
-    				new IPLSettingsContainer(
-    						Double.parseDouble(textFieldTriDissimilarity.getText()),
-    	    				Double.parseDouble(textFieldDistFallofExp.getText()),
-    	    				Double.parseDouble(textFieldBadTriPen.getText()),
-    	    				Double.parseDouble(textFieldMinTriAngle.getText()),
-    	    				true
-    	    		)
+    				imageSize,
+    				new TriangleImagePositionLocator(imageSize,
+    						new IPLSettingsContainer(
+    								Double.parseDouble(textFieldTriDissimilarity.getText()),
+    								Double.parseDouble(textFieldDistFallofExp.getText()),
+    								Double.parseDouble(textFieldBadTriPen.getText()),
+    								Double.parseDouble(textFieldMinTriAngle.getText()),
+    								true
+    								)
+    				)
     		);
+    		
     		locDataManager.setSpeedFiltering(false);
     		
     		trackLDMIO.printValuesAsCSV(System.out);
