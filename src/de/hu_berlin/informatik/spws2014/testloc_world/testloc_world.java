@@ -280,8 +280,7 @@ public class testloc_world {
     		
     		if (trackLDMIO.getAllGpsPoints().size() > 0) {
 	            View view = globeMapPanel.wwd.getView();
-	            double distance = view.getCenterPoint().distanceTo3(view.getEyePoint());
-	            view.goTo(new Position(translateToGlobePosition(trackLDMIO.getLastGpsPoint()), 0), distance);
+	            view.goTo(new Position(translateToGlobePosition(trackLDMIO.getLastGpsPoint()), 0), 4000);
     		}
     		
     		slider.setMaximum((trackLDMIO.getAllGpsPoints() == null) ? 0 : trackLDMIO.getAllGpsPoints().size());
