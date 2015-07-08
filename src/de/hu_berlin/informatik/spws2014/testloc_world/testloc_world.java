@@ -75,7 +75,7 @@ public class testloc_world {
 	private static class TestlocWorldFrame extends JFrame {
 		private static final long serialVersionUID = 1L;
 		
-		static int BASE_MAX_IMAGE_SIZE = 50;
+		static double BASE_MAX_IMAGE_SIZE = 50;
     	
     	//IO Data
 		DefaultListModel<String> trackNames;
@@ -83,8 +83,8 @@ public class testloc_world {
     	int currMapIndex;
     	
     	//UI Data
-    	int mapImageGeoWidth;
-    	int mapImageGeoHeight;
+    	double mapImageGeoWidth;
+    	double mapImageGeoHeight;
     	SurfaceImage mapSurfaceImage;
     	RenderableLayer mapRenderLayer;
     	MapPanel globeMapPanel;
@@ -240,7 +240,7 @@ public class testloc_world {
 				return false;
 			}
 			
-			int max = (mapBufferedImage.getHeight() > mapBufferedImage.getWidth())
+			double max = (mapBufferedImage.getHeight() > mapBufferedImage.getWidth())
 					? mapBufferedImage.getHeight() : mapBufferedImage.getWidth();
 			mapImageGeoHeight = BASE_MAX_IMAGE_SIZE * mapBufferedImage.getWidth() / max;
 			mapImageGeoWidth = BASE_MAX_IMAGE_SIZE * mapBufferedImage.getHeight()/ max;
@@ -304,8 +304,7 @@ public class testloc_world {
     		double newx = ((double) (inp.x * mapImageGeoWidth)) / mapBufferedImage.getWidth();
     		double newy = ((double) (inp.y * mapImageGeoHeight)) / mapBufferedImage.getHeight();
     		
-    		Position tmp = Position.fromDegrees(newy, newx);
-    		return tmp;
+    		return Position.fromDegrees(newx, newy);
     	}
     	
     	private Position translateToGlobePosition(GpsPoint inp) {
@@ -313,10 +312,10 @@ public class testloc_world {
     	}
     	
     	private Point2D translateToPoint2D(Position inp) {
-    		double newx = inp.getLongitude().degrees / mapImageGeoWidth * mapBufferedImage.getWidth();
-    		double newy = inp.getLatitude().degrees / mapImageGeoHeight * mapBufferedImage.getHeight();
+    		double newy = inp.getLongitude().degrees / mapImageGeoHeight * mapBufferedImage.getWidth();
+    		double newx = inp.getLatitude().degrees / mapImageGeoWidth * mapBufferedImage.getHeight();
     		
-    		return new Point2D(newx, newy);
+    		return new Point2D(newy, newx);
     	}
     	
     	/**
