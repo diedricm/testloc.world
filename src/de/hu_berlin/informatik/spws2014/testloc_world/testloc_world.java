@@ -242,10 +242,10 @@ public class testloc_world {
 			
 			double max = (mapBufferedImage.getHeight() > mapBufferedImage.getWidth())
 					? mapBufferedImage.getHeight() : mapBufferedImage.getWidth();
-			mapImageGeoHeight = BASE_MAX_IMAGE_SIZE * mapBufferedImage.getWidth() / max;
-			mapImageGeoWidth = BASE_MAX_IMAGE_SIZE * mapBufferedImage.getHeight()/ max;
+			mapImageGeoWidth = BASE_MAX_IMAGE_SIZE * mapBufferedImage.getWidth() / max;
+			mapImageGeoHeight = BASE_MAX_IMAGE_SIZE * mapBufferedImage.getHeight()/ max;
 
-			mapSurfaceImage = new SurfaceImage(mapBufferedImage, Sector.fromDegrees(0, mapImageGeoWidth, 0, mapImageGeoHeight));
+			mapSurfaceImage = new SurfaceImage(mapBufferedImage, Sector.fromDegrees(0, mapImageGeoHeight, 0, mapImageGeoWidth));
 			Polyline boundary = new Polyline(mapSurfaceImage.getCorners(), 0);
             boundary.setFollowTerrain(true);
             boundary.setClosed(true);
@@ -304,7 +304,7 @@ public class testloc_world {
     		double newx = ((double) (inp.x * mapImageGeoWidth)) / mapBufferedImage.getWidth();
     		double newy = ((double) (inp.y * mapImageGeoHeight)) / mapBufferedImage.getHeight();
     		
-    		return Position.fromDegrees(newx, newy);
+    		return Position.fromDegrees(newy, newx);
     	}
     	
     	private Position translateToGlobePosition(GpsPoint inp) {
@@ -312,10 +312,10 @@ public class testloc_world {
     	}
     	
     	private Point2D translateToPoint2D(Position inp) {
-    		double newy = inp.getLongitude().degrees / mapImageGeoHeight * mapBufferedImage.getWidth();
-    		double newx = inp.getLatitude().degrees / mapImageGeoWidth * mapBufferedImage.getHeight();
+    		double newx = inp.getLongitude().degrees / mapImageGeoWidth * mapBufferedImage.getWidth();
+    		double newy = inp.getLatitude().degrees / mapImageGeoHeight * mapBufferedImage.getHeight();
     		
-    		return new Point2D(newy, newx);
+    		return new Point2D(newx, newy);
     	}
     	
     	/**
