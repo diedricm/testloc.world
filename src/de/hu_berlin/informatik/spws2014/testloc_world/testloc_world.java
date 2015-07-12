@@ -302,7 +302,7 @@ public class testloc_world {
     	
     	private Position translateToImagePosition(Point2D inp) {
     		double newx = ((double) (inp.x * mapImageGeoWidth)) / mapBufferedImage.getWidth();
-    		double newy = ((double) (inp.y * mapImageGeoHeight)) / mapBufferedImage.getHeight();
+    		double newy = ((double) ((mapBufferedImage.getHeight() - 1 - inp.y) * mapImageGeoHeight)) / mapBufferedImage.getHeight();
     		
     		return Position.fromDegrees(newy, newx);
     	}
@@ -313,7 +313,8 @@ public class testloc_world {
     	
     	private Point2D translateToPoint2D(Position inp) {
     		double newx = inp.getLongitude().degrees / mapImageGeoWidth * mapBufferedImage.getWidth();
-    		double newy = inp.getLatitude().degrees / mapImageGeoHeight * mapBufferedImage.getHeight();
+		// Flip y Axis to match Android
+    		double newy = mapBufferedImage.getHeight() - 1 - inp.getLatitude().degrees / mapImageGeoHeight * mapBufferedImage.getHeight();
     		
     		return new Point2D(newx, newy);
     	}
